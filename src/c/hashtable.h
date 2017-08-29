@@ -13,7 +13,7 @@ struct mp_hashtable *mp_map_hashtable(const char *filename);
 int mp_unmap_hashtable(struct mp_hashtable *);
 
 int mp_insert(struct mp_hashtable *ht, void *key, void *value);
-void *mp_get(struct mp_hashtable *ht, void *key);
+const void *mp_get(struct mp_hashtable *ht, void *key);
 
 int mp_get_key_size(struct mp_hashtable *ht);
 int mp_get_value_size(struct mp_hashtable *ht);

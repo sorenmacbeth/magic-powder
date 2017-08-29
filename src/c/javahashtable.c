@@ -142,7 +142,7 @@ JNIEXPORT jbyteArray JNICALL Java_magic_1powder_Hashtable_get_1bytes
   struct mp_hashtable *ht = (struct mp_hashtable *)hashtable;
   char fixed_size_key[MP_MAX_KEY_SIZE] = { 0 };
   pad_key(env, fixed_size_key, key, mp_get_key_size(ht));
-  jbyte *v = mp_get(ht, fixed_size_key);
+  const jbyte *v = mp_get(ht, fixed_size_key);
   if (v) {
     int value_size = mp_get_value_size((struct mp_hashtable *)hashtable);
     jbyteArray value = (*env)->NewByteArray(env, value_size);
@@ -158,7 +158,7 @@ JNIEXPORT jbyteArray JNICALL Java_magic_1powder_Hashtable_get_1doubles
   struct mp_hashtable *ht = (struct mp_hashtable *)hashtable;
   char fixed_size_key[MP_MAX_KEY_SIZE] = { 0 };
   pad_key(env, fixed_size_key, key, mp_get_key_size(ht));
-  jdouble *v = mp_get(ht, fixed_size_key);
+  const jdouble *v = mp_get(ht, fixed_size_key);
   if (v) {
     int value_size = mp_get_value_size(ht);
     int nv = value_size / sizeof(jdouble);
@@ -186,7 +186,7 @@ JNIEXPORT jdoubleArray JNICALL Java_magic_1powder_Hashtable_get_1s_1f(JNIEnv *en
   strncpy(fixed_size_key, key, key_size);
   (*env)->ReleaseStringUTFChars(env, jkey, key);
 
-  jdouble *v = mp_get(ht, fixed_size_key);
+  const jdouble *v = mp_get(ht, fixed_size_key);
   if (!v)
     return NULL;
 

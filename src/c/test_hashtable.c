@@ -146,7 +146,7 @@ int test_get_found(void)
     return -1;
   }
 
-  float *retrieved = mp_get(ht, "5d5d4f5f5e06cd00d5a5d03b");
+  const float *retrieved = mp_get(ht, "5d5d4f5f5e06cd00d5a5d03b");
   if (!retrieved) {
     fprintf(stderr, "get returned NULL.\n");
     mp_unmap_hashtable(ht);
@@ -173,7 +173,8 @@ int test_insert_and_get_many(void)
     return -1;
 
   unsigned seed = time(NULL);
-  int key[2], value[2], *retrieved;
+  int key[2], value[2];
+  const int *retrieved;
   int n = 1000;
   int i;
 

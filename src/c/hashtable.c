@@ -168,7 +168,7 @@ int mp_insert(struct mp_hashtable *ht, void *key, void *value)
   return 0;
 }
 
-void *mp_get(struct mp_hashtable *ht, void *key)
+const void *mp_get(struct mp_hashtable *ht, void *key)
 {
   int *buckets = get_buckets(ht);
   int initial_bucket_index = get_bucket_index(ht, key);
