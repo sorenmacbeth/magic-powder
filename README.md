@@ -1,7 +1,7 @@
 # magic-powder
 
 Magic-powder is a Clojure library for creating and using a hashtable
-that are backed by a memory-mapped file. You can create the hashtable
+that is backed by a memory-mapped file. You can create the hashtable
 in one process, copy the file to another machine, and map the file
 into another process there.
 
@@ -18,8 +18,8 @@ Limitations:
 * The hash table's capacity (max. number of key–value pairs) and the
   number of hash buckets must be specified when creating the hash
   table and cannot be changed.
-* There are functions for modifying or deleting a key–value pair after
-  it has been added.
+* There are no functions for modifying or deleting a key–value pair
+  after it has been added.
 
 Given these limitations, magic-powder works best in situations where
 the hash table is created in batch, shipped, and then used in
