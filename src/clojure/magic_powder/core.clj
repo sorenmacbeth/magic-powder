@@ -23,7 +23,9 @@
 
 (defrecord HashTable [htp]
   IHashTable
-  (close [ht] (Hashtable/unmapHashtable htp))
+  (close [ht]
+    (Hashtable/unmapHashtable htp)
+    (assoc ht :htp nil))
   (insert-bytes [ht k v] (Hashtable/insert_bytes htp k v))
   (insert-doubles [ht k v] (Hashtable/insert_doubles htp k v))
   (get-bytes [ht k] (Hashtable/get_bytes htp k))
