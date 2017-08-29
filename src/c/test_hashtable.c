@@ -19,7 +19,8 @@ int test_make_hashtable_file(void)
       ints[3] != 0 ||
       ints[4] != 5000) {
     fprintf(stderr, "Created hashtable had unexpected header values:\n");
-    for (int i = 0; i < 5; i++)
+    int i;
+    for (i = 0; i < 5; i++)
       fprintf(stderr, "- %d\n", ints[i]);
     /* Don't unmap hashtable since the header values neeeder for the
      * file size are bogus. */
@@ -46,7 +47,8 @@ int test_make_hashtable_mem(void)
       ints[3] != 0 ||
       ints[4] != 5000) {
     fprintf(stderr, "Created in-memory hashtable had unexpected header values:\n");
-    for (int i = 0; i < 5; i++)
+    int i;
+    for (i = 0; i < 5; i++)
       fprintf(stderr, "- %d\n", ints[i]);
     /* Don't unmap hashtable since the header values neeeder for the
      * file size are bogus. */
@@ -82,7 +84,8 @@ int test_map_hashtable(void)
       ints[3] != 0 ||
       ints[4] != 5000) {
     fprintf(stderr, "Mapped hashtable had unexpected header values:\n");
-    for (int i = 0; i < 5; i++)
+    int i;
+    for (i = 0; i < 5; i++)
       fprintf(stderr, "- %d\n", ints[i]);
     return -1;
   }
@@ -231,4 +234,5 @@ int main(int argc, char *argv[])
   TEST(test_get_notfound);
   TEST(test_get_found);
   TEST(test_insert_and_get_many);
+  return 0;
 }

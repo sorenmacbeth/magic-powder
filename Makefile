@@ -3,8 +3,7 @@ all: target/resources/libhashtable.so test_hashtable
 test:
 	./test_hashtable
 
-JAVA_HOME := $(shell /usr/libexec/java_home)
-CFLAGS=-I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
+CFLAGS=-I/System/Library/Frameworks/JavaVM.framework/Versions/Current/Headers -I/opt/java/include -I/opt/java/include/linux
 
 src/c/javahashtable.h: src/java/magic_powder/Hashtable.java
 	javah -o $@ -cp src/java magic_powder.Hashtable
