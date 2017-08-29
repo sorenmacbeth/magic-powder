@@ -40,12 +40,5 @@
                                        filename)))
 
 (defn open-hash-table
-
-(defmacro with-hash-table [[var-name & args] & body]
-  `(let [~var-name (open-hash-table ~@args)]
-     (try
-       ~@body
-       (finally
-         (close ~var-name)))))
   [filename]
   (HashTable. (Hashtable/mapHashtable filename)))
