@@ -1,5 +1,8 @@
 all: libhashtable.so test_hashtable
 
+test:
+	./test_hashtable
+
 CFLAGS=-I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/darwin
 
 javahashtable.h: ../java/magic_powder/Hashtable.java
@@ -20,4 +23,4 @@ test_hashtable: test_hashtable.o libhashtable.so
 	gcc -o $@ $+ -L. -lhashtable
 
 clean:
-	rm -f libhashtable.so hashtable.o javahashtable.o javahashtable.h
+	rm -f libhashtable.so hashtable.o javahashtable.o javahashtable.h test_hashtable test_hashtable.o
