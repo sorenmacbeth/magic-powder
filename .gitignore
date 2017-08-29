@@ -11,4 +11,5 @@ pom.xml.asc
 .hg/
 *.o
 *.so
-/src/c/test_hashtable
+/test_hashtable
+/src/c/javahashtable.h

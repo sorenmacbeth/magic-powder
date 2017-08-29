@@ -1,12 +1,36 @@
 package magic_powder;
 
+import java.io.*;
+
 public class Hashtable {
     static {
-        System.out.println("Loading C library from Java!");
-        // I could not get System.loadLibrary to work correctly with a .so file.
-        // The downside to this is that you need to have the full, rooted path to the shared library.
-        // Suggestions or tips are welcome!
-        System.load(System.getProperty("user.dir") + "/src/c/libhashtable.so");
+        String path = "/libhashtable.so";
+
+        try {
+            File temp = File.createTempFile("libhashtable", ".so");
+            temp.deleteOnExit();
+            if (!temp.exists()) {
+                throw new FileNotFoundException("File " + temp.getAbsolutePath() + " does not exist.");
+            }
+
+            byte[] buffer = new byte[1024];
+            int readBytes;
+            InputStream is = Hashtable.class.getResourceAsStream(path);
+            if (is == null) {
+                throw new FileNotFoundException("File " + path + " was not found inside JAR.");
+            }
+            OutputStream os = new FileOutputStream(temp);
+            while ((readBytes = is.read(buffer)) != -1) {
+                os.write(buffer, 0, readBytes);
+            }
+            os.close();
+            is.close();
+
+            System.out.println("Loading " + temp.getAbsolutePath());
+            System.load(temp.getAbsolutePath());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static native long makeHashtable(int keySize, int valueSize,
