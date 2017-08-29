@@ -26,10 +26,18 @@
   (close [ht]
     (Hashtable/unmapHashtable htp)
     (assoc ht :htp nil))
-  (insert-bytes [ht k v] (Hashtable/insert_bytes htp k v))
-  (insert-doubles [ht k v] (Hashtable/insert_doubles htp k v))
-  (get-bytes [ht k] (Hashtable/get_bytes htp k))
-  (get-doubles [ht k] (Hashtable/get_doubles htp k)))
+  (insert-bytes [ht k v]
+    {:pre [(string? k)]}
+    (Hashtable/insert_bytes htp k (byte-array v)))
+  (insert-doubles [ht k v]
+    {:pre [(string? k)]}
+    (Hashtable/insert_doubles htp k (double-array v)))
+  (get-bytes [ht k]
+    {:pre [(string? k)]}
+    (Hashtable/get_bytes htp k))
+  (get-doubles [ht k]
+    {:pre [(string? k)]}
+    (Hashtable/get_doubles htp k)))
 
 (defn hash-table? [x]
   (instance? HashTable x))
