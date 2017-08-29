@@ -50,6 +50,19 @@ read-only mode.
   (insert-bytes ht "foo" [3.14 2.718]))
 ```
 
+## Build
+
+Magic-powder contains a shared library written in C. The Clojure code
+uses the Java Native Interface (JNI) to call the C code.
+
+The various Leiningen commands (e.g., `lein uberjar`) should build the
+C library first and store the shared library under
+`target/resources`. At run time, the shared library is read from the
+resources, written to a temporary file, and loaded.
+
+Because the shared library consists of native code for the platform on
+which it was compiled, the uberjar will only work on that platform.
+
 ## Copyright
 
 Copyright © 2017 Yieldbot, Inc.
