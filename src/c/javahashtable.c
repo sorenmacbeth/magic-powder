@@ -6,12 +6,6 @@
 #include "javahashtable.h"
 #include "hashtable.h"
 
-int Java_magic_1powder_Hashtable_hello(JNIEnv *env, jclass class, jint a)
-{
-  printf("hello, %d.\n", a);
-  return 42;
-}
-
 JNIEXPORT jlong JNICALL Java_magic_1powder_Hashtable_makeHashtable(JNIEnv *env, jclass class,
                                                      jint key_size, jint value_size,
                                                      jint capacity, jint nbuckets,

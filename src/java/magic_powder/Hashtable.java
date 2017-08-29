@@ -9,8 +9,6 @@ public class Hashtable {
         System.load(System.getProperty("user.dir") + "/src/c/libhashtable.so");
     }
 
-    public static native int hello(int a);
-
     public static native long makeHashtable(int keySize, int valueSize,
                                             int capacity, int nbuckets,
                                             String filename);
@@ -22,10 +20,4 @@ public class Hashtable {
 
     public static native byte[] get_bytes(long hashtable, String key);
     public static native double[] get_doubles(long hashtable, String key);
-
-    public static void main(String[] args)
-    {
-        System.out.println("main");
-        hello(2);
-    }
 }
