@@ -32,12 +32,12 @@
 (defn hash-table? [x]
   (instance? HashTable x))
 
+(defn create-hash-table
+  [key-size value-size capacity nbuckets & [filename]]
+  (HashTable. (Hashtable/makeHashtable key-size value-size capacity nbuckets
+                                       filename)))
+
 (defn open-hash-table
-  ([key-size value-size capacity nbuckets & [filename]]
-   (HashTable. (Hashtable/makeHashtable key-size value-size capacity nbuckets
-                                        filename)))
-  ([filename]
-   (HashTable. (Hashtable/mapHashtable filename))))
 
 (defmacro with-hash-table [[var-name & args] & body]
   `(let [~var-name (open-hash-table ~@args)]
@@ -45,3 +45,5 @@
        ~@body
        (finally
          (close ~var-name)))))
+  [filename]
+  (HashTable. (Hashtable/mapHashtable filename)))
