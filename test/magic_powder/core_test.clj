@@ -5,7 +5,8 @@
             [clojure.test :refer :all]
             [magic-powder.core :refer :all]
             [midje.util]
-            [midje.repl]))
+            [midje.repl])
+  (:import [magic_powder NoCapacityException]))
 
 (facts "making, mapping, and unmapping"
   (fact "hash tables can be made in memory"
@@ -23,7 +24,19 @@
   (fact "works for string key and double array value"
     (with-open [ht (create-hash-table 10 16 100 200)]
       (insert-doubles ht "foo" (double-array [3.14 2.7]))
-      => anything)))
+      => anything))
+  (fact "when out of capacity throws an exception"
+    (with-open [ht (create-hash-table 10 16 1 10)]
+      (insert-doubles ht "foo" (double-array [3.14 2.7]))
+      => anything
+      (insert-doubles ht "bar" (double-array [3.14 2.7]))
+      => (throws NoCapacityException)))
+  (fact "when out of buckets throws an exception"
+    (with-open [ht (create-hash-table 10 16 10 1)]
+      (insert-doubles ht "foo" (double-array [3.14 2.7]))
+      => anything
+      (insert-doubles ht "bar" (double-array [3.14 2.7]))
+      => (throws NoCapacityException))))
 
 (facts "getting"
   (fact "missing key from empty hash table"

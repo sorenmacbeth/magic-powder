@@ -52,6 +52,8 @@ JNIEXPORT void JNICALL Java_magic_1powder_Hashtable_unmapHashtable(JNIEnv *env, 
 static void throw_no_capacity_exception(JNIEnv *env)
 {
     jclass jc = (*env)->FindClass(env, "magic_powder/NoCapacityException");
+    if (!jc)
+      printf("Cannot find class NoCapacityException\n");
     assert(jc);
     (*env)->ThrowNew(env, jc, "The hash table is out of space for items.");
     return;
@@ -60,6 +62,8 @@ static void throw_no_capacity_exception(JNIEnv *env)
 static void throw_no_buckets_exception(JNIEnv *env)
 {
     jclass jc = (*env)->FindClass(env, "magic_powder/NoCapacityException");
+    if (!jc)
+      printf("Cannot find class NoCapacityException for buckets\n");
     assert(jc);
     (*env)->ThrowNew(env, jc, "The hash table is out buckets.");
     return;
@@ -72,8 +76,10 @@ void check_insert_return_value(JNIEnv *env, int r)
     return;
   case MP_ENOCAPACITY:
     throw_no_capacity_exception(env);
+    return;
   case MP_ENOBUCKETS:
     throw_no_buckets_exception(env);
+    return;
   default:
     abort();
   }
