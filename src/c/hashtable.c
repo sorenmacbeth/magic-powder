@@ -5,9 +5,15 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <errno.h>
 #include "hashtable.h"
 
+#define MAGIC_NUMBER 1540212860
+#define CURRENT_FORMAT_VERSION 1
+
 struct mp_hashtable {
+  int magic_number;
+  int format_version;
   int key_size;
   int value_size;
   int capacity;
@@ -69,6 +75,8 @@ struct mp_hashtable *mp_make_hashtable(int key_size, int value_size,
         perror("munmap");
       return NULL;
     }
+  ht->magic_number = MAGIC_NUMBER;
+  ht->format_version = CURRENT_FORMAT_VERSION;
   ht->key_size = key_size;
   ht->value_size = value_size;
   ht->capacity = capacity;
@@ -102,6 +110,22 @@ struct mp_hashtable *mp_map_hashtable(const char *filename)
   }
   if (close(fd) == -1) {
     perror("close");
+    return NULL;
+  }
+  if (ht->magic_number != MAGIC_NUMBER) {
+    fprintf(stderr, "File has inappropriate magic number %d (expected %d): %s\n",
+            ht->magic_number, MAGIC_NUMBER, filename);
+    if (munmap(ht, sb.st_size) == -1)
+      perror("munmap");
+    errno = EFTYPE; /* Inappropriate file type or format */
+    return NULL;
+  }
+  if (ht->format_version != CURRENT_FORMAT_VERSION) {
+    fprintf(stderr, "File has inappropriate format version %d (expected %d): %s\n",
+            ht->format_version, CURRENT_FORMAT_VERSION, filename);
+    if (munmap(ht, sb.st_size) == -1)
+      perror("munmap");
+    errno = EPROGMISMATCH; /* Program version wrong */
     return NULL;
   }
   return ht;

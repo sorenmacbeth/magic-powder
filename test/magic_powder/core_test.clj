@@ -54,3 +54,15 @@
       (insert-doubles ht "foo" (double-array [3.14 2.7]))
       (vec (get-doubles ht "foo"))
       => [3.14 2.7])))
+
+(facts "format validation"
+  (fact "magic number"
+    (io/copy (byte-array [0x7d 0xc8 0xcd 0x5b 1 0 0 0 8 0 0 0 16 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+             (io/file "/tmp/bar.ht"))
+    (open-hash-table "/tmp/bar.ht")
+    => (throws java.io.IOException "Inappropriate file type or format"))
+  (fact "format version"
+    (io/copy (byte-array [0x7c 0xc8 0xcd 0x5b 2 0 0 0 8 0 0 0 16 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+             (io/file "/tmp/baz.ht"))
+    (open-hash-table "/tmp/baz.ht")
+    => (throws java.io.IOException "Program version wrong")))
