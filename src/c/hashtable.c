@@ -85,17 +85,21 @@ struct mp_hashtable *mp_make_hashtable(int key_size, int value_size,
   return ht;
 }
 
-struct mp_hashtable *mp_map_hashtable(const char *filename)
+struct mp_hashtable *mp_map_hashtable(const char *filename, const char **error_message)
 {
   int fd = open(filename, O_RDONLY);
   if (fd == -1) {
     perror("open");
+    if (error_message)
+      *error_message = strerror(errno);
     return NULL;
   }
   /* Stat the file to determine its size. */
   struct stat sb;
   if (fstat(fd, &sb) == -1) {
     perror("fstat");
+    if (error_message)
+      *error_message = strerror(errno);
     if (close(fd) == -1)
       perror("close");
     return NULL;
@@ -104,28 +108,32 @@ struct mp_hashtable *mp_map_hashtable(const char *filename)
                               MAP_FILE | MAP_SHARED, fd, 0);
   if ((void *)ht == MAP_FAILED) {
     perror("mmap");
+    if (error_message)
+      *error_message = strerror(errno);
     if (close(fd) == -1)
       perror("close");
     return NULL;
   }
   if (close(fd) == -1) {
     perror("close");
+    if (error_message)
+      *error_message = strerror(errno);
     return NULL;
   }
   if (ht->magic_number != MAGIC_NUMBER) {
-    fprintf(stderr, "File has inappropriate magic number %d (expected %d): %s\n",
+    fprintf(stderr, "File has incorrect magic number %d (expected %d): %s\n",
             ht->magic_number, MAGIC_NUMBER, filename);
+    *error_message = "File has incorrect magic number";
     if (munmap(ht, sb.st_size) == -1)
       perror("munmap");
-    errno = EFTYPE; /* Inappropriate file type or format */
     return NULL;
   }
   if (ht->format_version != CURRENT_FORMAT_VERSION) {
     fprintf(stderr, "File has inappropriate format version %d (expected %d): %s\n",
             ht->format_version, CURRENT_FORMAT_VERSION, filename);
+    *error_message = "File has incorrect version number";
     if (munmap(ht, sb.st_size) == -1)
       perror("munmap");
-    errno = EPROGMISMATCH; /* Program version wrong */
     return NULL;
   }
   return ht;

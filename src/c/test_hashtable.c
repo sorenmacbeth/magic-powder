@@ -72,7 +72,7 @@ int test_map_hashtable(void)
     unlink(filename);
     return -1;
   }
-  ht = mp_map_hashtable(filename);
+  ht = mp_map_hashtable(filename, NULL);
   if (!ht) {
     unlink(filename);
     return -1;

@@ -27,12 +27,13 @@ JNIEXPORT jlong JNICALL Java_magic_1powder_Hashtable_makeHashtable(JNIEnv *env, 
 JNIEXPORT jlong JNICALL Java_magic_1powder_Hashtable_mapHashtable(JNIEnv *env, jclass class,
                                                    jstring jfilename) {
   const char *filename = (*env)->GetStringUTFChars(env, jfilename, NULL);
-  struct mp_hashtable *ht = mp_map_hashtable(filename);
+  const char *error_message;
+  struct mp_hashtable *ht = mp_map_hashtable(filename, &error_message);
   (*env)->ReleaseStringUTFChars(env, jfilename, filename);
   if (!ht) {
     jclass jc = (*env)->FindClass(env, "java/io/IOException");
     assert (jc);
-    (*env)->ThrowNew(env, jc, strerror(errno));
+    (*env)->ThrowNew(env, jc, error_message);
     return 0;
   }
   return (jlong)ht;

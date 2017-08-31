@@ -9,7 +9,7 @@ struct mp_hashtable;
 struct mp_hashtable *mp_make_hashtable(int key_size, int value_size,
                                        int capacity, int nbuckets,
                                        const char *filename);
-struct mp_hashtable *mp_map_hashtable(const char *filename);
+struct mp_hashtable *mp_map_hashtable(const char *filename, const char **error_message);
 int mp_unmap_hashtable(struct mp_hashtable *);
 
 int mp_insert(struct mp_hashtable *ht, void *key, void *value);
