@@ -72,6 +72,9 @@ just `make`. This will attempt to build shared libraries for both
 macOS and Linux. This will only work if run on macOS with docker.
 
 
-## Copyright
+## License
 
 Copyright © 2017 Yieldbot, Inc.
+
+Distributed under the Eclipse Public License either version 1.0 or (at
+your option) any later version.

@@ -1,4 +1,6 @@
 (defproject yieldbot/magic-powder "0.1.0-SNAPSHOT"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
   :repositories [["snapshots"
                   {:url "https://artifactory.yb0t.cc/artifactory/yieldbot-maven-snapshots"
                    :username :env/LEIN_USER
