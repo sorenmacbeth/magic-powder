@@ -4,8 +4,6 @@ import java.io.*;
 
 public class Hashtable {
     static {
-        String path = "/libhashtable.so";
-
         try {
             File temp = File.createTempFile("libhashtable", ".so");
             temp.deleteOnExit();
@@ -15,10 +13,23 @@ public class Hashtable {
 
             byte[] buffer = new byte[1024];
             int readBytes;
-            InputStream is = Hashtable.class.getResourceAsStream(path);
-            if (is == null) {
-                throw new FileNotFoundException("File " + path + " was not found inside JAR.");
-            }
+            InputStream is;
+            // First try the OS-specific name in case this is a fat
+            // uberjar (i.e., an uberjar that contains shared
+            // libraries for more than one operating system)
+            if (System.getProperty("os.name").equals("Mac OS X"))
+                is = Hashtable.class.getResourceAsStream("/libhashtable.Darwin.so");
+            else if (System.getProperty("os.name").equals("Linux"))
+                is = Hashtable.class.getResourceAsStream("/libhashtable.Linux.so");
+            else
+                is = null;
+            // If is is still null, then try the resource that does
+            // not have the OS in the name, in case this is not a fat
+            // uberjar.
+            if (is == null)
+                is = Hashtable.class.getResourceAsStream("/libhashtable.so");
+            if (is == null)
+                throw new FileNotFoundException("Shared library was not found inside JAR.");
             OutputStream os = new FileOutputStream(temp);
             while ((readBytes = is.read(buffer)) != -1) {
                 os.write(buffer, 0, readBytes);

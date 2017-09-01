@@ -61,7 +61,16 @@ C library first and store the shared library under
 resources, written to a temporary file, and loaded.
 
 Because the shared library consists of native code for the platform on
-which it was compiled, the uberjar will only work on that platform.
+which it was compiled, the uberjar built this way will only work on
+that platform.
+
+### Build for multiple platforms
+
+If the environment variable `MAGIC_POWDER_BUILD_FAT_UBERJAR` is set,
+then the various Leiningen commands will run `make fat` instead of
+just `make`. This will attempt to build shared libraries for both
+macOS and Linux. This will only work if run on macOS with docker.
+
 
 ## Copyright
 
