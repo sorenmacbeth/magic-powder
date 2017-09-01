@@ -1,4 +1,6 @@
 (defproject yieldbot/magic-powder "0.1.0-SNAPSHOT"
+  :description "Clojure library for off-heap hash table backed by a memory-mapped file"
+  :url "http://github.com/yieldbot/magic-powder"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :repositories [["snapshots"
