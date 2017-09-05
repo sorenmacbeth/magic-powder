@@ -4,18 +4,6 @@
 
 (declare hash-table?)
 
-(def ^:const byte-array-class (class (byte-array 0)))
-
-(def ^:const double-array-class (class (double-array 0)))
-
-(defn- byte-array?
-  [a]
-  (instance? byte-array-class a))
-
-(defn- double-array?
-  [a]
-  (instance? double-array-class a))
-
 (defrecord HashTable [htpa]
   java.io.Closeable
   (close [ht]
