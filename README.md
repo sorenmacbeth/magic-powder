@@ -50,6 +50,10 @@ read-only mode.
   (insert-bytes ht "foo" [3.14 2.718]))
 ```
 
+Writing to or reading from a closed hash table causes a
+magic_powder.ClosedException.
+
+
 ## Build
 
 Magic-powder contains a shared library written in C. The Clojure code
