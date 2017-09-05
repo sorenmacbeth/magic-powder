@@ -22,22 +22,26 @@
   (get-doubles [ht k]))
 
 (defrecord HashTable [htp]
-  IHashTable
+  java.io.Closeable
   (close [ht]
     (Hashtable/unmapHashtable htp)
-    (assoc ht :htp nil))
-  (insert-bytes [ht k v]
-    {:pre [(string? k)]}
-    (Hashtable/insert_bytes htp k (byte-array v)))
-  (insert-doubles [ht k v]
-    {:pre [(string? k)]}
-    (Hashtable/insert_doubles htp k (double-array v)))
-  (get-bytes [ht k]
-    {:pre [(string? k)]}
-    (Hashtable/get_bytes htp k))
-  (get-doubles [ht k]
-    {:pre [(string? k)]}
-    (Hashtable/get_doubles htp k)))
+    (assoc ht :htp nil)))
+
+(defn insert-bytes [ht k v]
+  {:pre [(string? k)]}
+  (Hashtable/insert_bytes (:htp ht) k (byte-array v)))
+
+(defn insert-doubles [ht k v]
+  {:pre [(string? k)]}
+  (Hashtable/insert_doubles (:htp ht) k (double-array v)))
+
+(defn get-bytes [ht k]
+  {:pre [(string? k)]}
+  (Hashtable/get_bytes (:htp ht) k))
+
+(defn get-doubles [ht k]
+  {:pre [(string? k)]}
+  (Hashtable/get_doubles (:htp ht) k))
 
 (defn hash-table? [x]
   (instance? HashTable x))
