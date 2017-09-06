@@ -27,10 +27,9 @@ read-only mode.
 
 ## Usage
 
-``` clojure
-;; project.clj
-[yieldbot/magic-powder "0.1.0-SNAPSHOT"]
+(https://img.shields.io/clojars/v/yieldbot/magic-powder.svg)](https://clojars.org/yieldbot/magic-powder)
 
+``` clojure
 (require '[magic-powder :as mp])
 
 ;; Write bytes
