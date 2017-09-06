@@ -27,7 +27,7 @@ read-only mode.
 
 ## Usage
 
-(https://img.shields.io/clojars/v/yieldbot/magic-powder.svg)](https://clojars.org/yieldbot/magic-powder)
+[![Clojars Project](https://img.shields.io/clojars/v/yieldbot/magic-powder.svg)](https://clojars.org/yieldbot/magic-powder)
 
 ``` clojure
 (require '[magic-powder :as mp])
