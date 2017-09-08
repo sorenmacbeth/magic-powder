@@ -14,7 +14,8 @@
                    :plugins [[lein-midje "3.1.3"]
                              [lein-shell "0.5.0"]]}
              :uberjar {:aot :all}}
-  :release-tasks [["vcs" "assert-committed"]
+  :release-tasks [["shell" "./ensure_fat.sh"]
+                  ["vcs" "assert-committed"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
                   ["vcs" "commit"]
                   ["vcs" "tag"]
