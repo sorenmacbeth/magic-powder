@@ -33,20 +33,20 @@ read-only mode.
 (require '[magic-powder :as mp])
 
 ;; Write bytes
-(with-open [ht (create-hash-table 3 4 100 200
-                                  "/tmp/bytes.ht")]
-  (insert-bytes ht "foo"
-                   (.getBytes "quux" "UTF-8")))
+(with-open [ht (mp/create-hash-table 3 4 100 200
+                                     "/tmp/bytes.ht")]
+  (mp/insert-bytes! ht "foo"
+                       (.getBytes "quux" "UTF-8")))
 
 ;; Read bytes
-(with-open [ht (open-hash-table "/tmp/bytes.ht")]
-  (vec (get-bytes ht "foo")))
+(with-open [ht (mp/open-hash-table "/tmp/bytes.ht")]
+  (vec (mp/get-bytes ht "foo")))
 ;; => [113 117 117 120]
 
 ;; Write doubles
-(with-open [ht (create-hash-table 3 16 100 200
-                                  "/tmp/doubles.ht")]
-  (insert-bytes ht "foo" [3.14 2.718]))
+(with-open [ht (mp/create-hash-table 3 16 100 200
+                                     "/tmp/doubles.ht")]
+  (mp/insert-doubles! ht "foo" [3.14 2.718]))
 ```
 
 Writing to or reading from a closed hash table causes a

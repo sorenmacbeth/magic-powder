@@ -1,7 +1,8 @@
 (ns magic-powder.core
+  (:require [defprecated.core :as depr])
   (:import java.io.Closeable
-           [magic_powder ClosedException Hashtable]
-           [java.util.concurrent.locks ReentrantReadWriteLock]))
+           java.util.concurrent.locks.ReentrantReadWriteLock
+           [magic_powder ClosedException Hashtable]))
 
 (declare hash-table?)
 
@@ -33,19 +34,25 @@
   (when (nil? @(:htpa ht))
     (throw (ClosedException. "The hash table is closed."))))
 
-(defn insert-bytes [ht k v]
+(defn insert-bytes! [ht k v]
   {:pre [(hash-table? ht)
          (string? k)]}
   (with-read-lock ht
     (check-closed ht)
     (Hashtable/insert_bytes @(:htpa ht) k (byte-array v))))
 
-(defn insert-doubles [ht k v]
+(depr/defn insert-bytes [ht k v]
+  (insert-bytes! ht k v))
+
+(defn insert-doubles! [ht k v]
   {:pre [(hash-table? ht)
          (string? k)]}
   (with-read-lock ht
     (check-closed ht)
     (Hashtable/insert_doubles @(:htpa ht) k (double-array v))))
+
+(depr/defn insert-doubles [ht k v]
+  (insert-doubles! ht k v))
 
 (defn get-bytes [ht k]
   {:pre [(hash-table? ht)
