@@ -4,6 +4,9 @@
            java.util.concurrent.locks.ReentrantReadWriteLock
            [magic_powder ClosedException Hashtable]))
 
+;; Check for reflection.
+(set! *warn-on-reflection* true)
+
 (declare hash-table?)
 
 (defmacro with-lock [lock & body]
@@ -15,10 +18,10 @@
          (.unlock lock#)))))
 
 (defmacro with-read-lock [ht & body]
-  `(with-lock (.readLock (:rwlock ~ht))
+  `(with-lock (.readLock ^ReentrantReadWriteLock (:rwlock ~ht))
      ~@body))
 
-(defrecord HashTable [htpa rwlock]
+(defrecord HashTable [htpa ^ReentrantReadWriteLock rwlock]
   java.io.Closeable
   (close [ht]
     (with-lock (.writeLock rwlock)
@@ -28,7 +31,7 @@
 
 (defn close [ht]
   {:pre [(hash-table? ht)]}
-  (.close ht))
+  (.close ^HashTable ht))
 
 (defn- check-closed [ht]
   (when (nil? @(:htpa ht))
